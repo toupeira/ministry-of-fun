@@ -5,7 +5,10 @@ var score := 0
 
 @onready var title: Label = %Title
 @onready var details: Label = %Details
-@onready var gameOver: Control = %GameOver
+@onready var game_over_panel: Control = %GameOver
+@onready var debug_label: Label = %DebugLabel
+
+var debug_messages: Array[String] = []
 
 func _input(event: InputEvent) -> void:
   if event.is_action_pressed('fullscreen'):
@@ -32,16 +35,28 @@ func add_score(value: int) -> void:
   set_score(score)
 
 func game_over() -> void:
-  gameOver.modulate.a = 0.0
-  gameOver.visible = true
-  var tween := gameOver.create_tween()
-  tween.tween_property(gameOver, 'modulate:a', 1, 0.1)
+  game_over_panel.modulate.a = 0.0
+  game_over_panel.visible = true
+  var tween := game_over_panel.create_tween()
+  tween.tween_property(game_over_panel, 'modulate:a', 1, 0.1)
 
 func reset() -> void:
   score = 0
-  var tween := gameOver.create_tween()
-  tween.tween_property(gameOver, 'modulate:a', 0, 0.1)
-  tween.tween_callback(func() -> void: gameOver.visible = false)
+  var tween := game_over_panel.create_tween()
+  tween.tween_property(game_over_panel, 'modulate:a', 0, 0.1)
+  tween.tween_callback(func() -> void: game_over_panel.visible = false)
 
 func is_game_over() -> bool:
-  return gameOver.visible
+  return game_over_panel.visible
+
+func log_debug(message: String) -> void:
+  debug_messages.append(message)
+  debug_label.text = "\n".join(debug_messages)
+  debug_label.visible = true
+  await get_tree().create_timer(2).timeout
+
+  debug_messages.pop_front()
+  if debug_messages.size() == 0:
+    debug_label.visible = false
+  else:
+    debug_label.text = "\n".join(debug_messages)

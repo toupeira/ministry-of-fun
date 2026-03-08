@@ -4,6 +4,13 @@
 [ext_resource type="TileSet" uid="uid://c5cnhdne8rbs4" path="res://snake/tileset.tres" id="2_iujm3"]
 [ext_resource type="PackedScene" uid="uid://w38ekea1d6hv" path="res://shared/hud.tscn" id="2_vtpab"]
 [ext_resource type="Texture2D" uid="uid://cn6qxfhn0e3gm" path="res://assets/backgrounds/Nature Landscapes/nature 2/origbig.png" id="3_vtpab"]
+[ext_resource type="Shader" uid="uid://ctrfek1i5k82m" path="res://shared/color_cycler.gdshader" id="5_rwqi7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c6obg"]
+shader = ExtResource("5_rwqi7")
+shader_parameter/speed = 3.0000001425
+shader_parameter/intensity = 0.0
+shader_parameter/spatial_scale = 4.0
 
 [node name="Snake" type="Node2D" unique_id=1798389054]
 script = ExtResource("1_j2kkt")
@@ -31,6 +38,7 @@ tile_set = ExtResource("2_iujm3")
 
 [node name="Snake" type="TileMapLayer" parent="Tiles" unique_id=2104160943]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_c6obg")
 tile_set = ExtResource("2_iujm3")
 
 [node name="Food" type="TileMapLayer" parent="Tiles" unique_id=1739448336]

@@ -74,3 +74,18 @@ text = "[font_size=64]Game Over[/font_size]
 Press Space to start a new game"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="DebugLabel" type="Label" parent="." unique_id=228165109]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -640.0
+offset_top = -20.0
+offset_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+label_settings = ExtResource("2_qha2f")
+vertical_alignment = 2
