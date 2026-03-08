@@ -8,13 +8,15 @@ extends Node2D
 @onready var food: TileMapLayer = %Food
 
 const SPEED := 10
+const SNAKE_SIZE := 3
 const FOOD_FREQUENCY := 30
+const FOOD_SWALLOW := 10
 const FOOD_MAX := 10
 
 var cycles := 0
-var posStart := Vector2i(12, 9)
-var posCurrent: Array[Vector2i] = []
-var posOld: Array[Vector2i] = []
+var pos_start := Vector2i(12, 9)
+var pos_current: Array[Vector2i] = []
+var pos_old: Array[Vector2i] = []
 var headOffset := Vector2i.ZERO
 
 var directions: Dictionary[String, Vector2i] = {
@@ -22,11 +24,19 @@ var directions: Dictionary[String, Vector2i] = {
   next = Vector2i.ZERO,
 }
 
-var scores: Dictionary[String, int] = {
-  food = 10,
+const scores: Dictionary[String, int] = {
+  red = 10,
+  green = 50,
+  yellow = 100,
 }
 
-const snakeTiles := {
+const FOOD_TILES := {
+  red = Vector2i(0, 21),
+  green = Vector2i(1, 21),
+  yellow = Vector2i(2, 21),
+}
+
+const SNAKE_TILES := {
   head = {
     Vector2i.UP: Vector2i(1, 10),
     Vector2i.LEFT: Vector2i(1, 11),
@@ -99,11 +109,11 @@ func start_game() -> void:
 
   snake.clear()
   food.clear()
-  posCurrent.clear()
-  posOld.clear()
+  pos_current.clear()
+  pos_old.clear()
 
-  for i in range(3):
-    add_segment(posStart - Vector2i(i, 0))
+  for i in range(SNAKE_SIZE):
+    add_segment(pos_start - Vector2i(i, 0))
 
   render_snake()
 
@@ -112,26 +122,26 @@ func end_game() -> void:
   hud.game_over()
 
 func add_segment(pos: Vector2i) -> void:
-  posCurrent.append(pos)
+  pos_current.append(pos)
 
 func render_snake() -> void:
   snake.clear()
 
-  var tile: Vector2i = snakeTiles.head[directions.current] + headOffset
+  var tile: Vector2i = SNAKE_TILES.head[directions.current] + headOffset
   var lastSegment: Vector2i
   var lastDirection: Vector2i
 
-  for index in range(posCurrent.size()):
-    var segment := posCurrent[index]
+  for index in range(pos_current.size()):
+    var segment := pos_current[index]
     if lastSegment:
       var direction := lastSegment - segment
-      if index == posCurrent.size() - 1:
-        tile= snakeTiles.tail[direction]
+      if index == pos_current.size() - 1:
+        tile= SNAKE_TILES.tail[direction]
       else:
-        tile = snakeTiles.body[direction]
+        tile = SNAKE_TILES.body[direction]
 
       if lastDirection and direction != lastDirection:
-        var cornerTile: Vector2i = snakeTiles.corners[[direction, lastDirection]]
+        var cornerTile: Vector2i = SNAKE_TILES.corners[[direction, lastDirection]]
         snake.set_cell(lastSegment, 1, cornerTile)
       lastDirection = direction
 
@@ -143,15 +153,15 @@ func move_snake() -> void:
     return
 
   # Calculate new head position
-  var head: Vector2i = posCurrent[0] + directions.next
+  var head: Vector2i = pos_current[0] + directions.next
 
   # Check collisions with walls
   if walls.get_cell_source_id(head) >= 0:
     return end_game()
 #
   ## Check collisions with self
-  for i in range(1, len(posCurrent)):
-    if head == posCurrent[i]:
+  for i in range(1, len(pos_current)):
+    if head == pos_current[i]:
       return end_game()
 
   # Check collisions with food
@@ -159,12 +169,12 @@ func move_snake() -> void:
     eat_food(head)
 
   # Move snake segments
-  posOld = posCurrent.duplicate()
-  posCurrent[0] = head
+  pos_old = pos_current.duplicate()
+  pos_current[0] = head
   directions.current = directions.next
 
-  for i in range(1, len(posCurrent)):
-    posCurrent[i] = posOld[i - 1]
+  for i in range(1, len(pos_current)):
+    pos_current[i] = pos_old[i - 1]
 
   render_snake()
 
@@ -177,18 +187,33 @@ func add_food() -> void:
   while true:
     var pos := Vector2i(randi() % rect.size.x, randi() % rect.size.y)
     if walls.get_cell_source_id(pos) < 0 and snake.get_cell_source_id(pos) < 0:
-      food.set_cell(pos, 1, Vector2i(0, 21))
+      var tile := FOOD_TILES.red
+      if pos_current.size() > FOOD_SWALLOW * 2 and randi() % 10 == 0 and food.get_used_cells_by_id(1, FOOD_TILES.green).size() == 0:
+        tile = FOOD_TILES.green
+      food.set_cell(pos, 1, tile)
       return
 
 func eat_food(pos: Vector2i) -> void:
   headOffset = Vector2i(3, 0)
   var sprite := Sprite2D.new()
-  sprite.modulate.a = 0.3
+  sprite.modulate.a = 0.4
   sprite.texture = Util.get_tile_image(food, pos)
   sprite.position = Util.get_tile_position(food, pos)
   add_child(sprite)
   Util.grow_and_fade(sprite).tween_callback(func() -> void: headOffset = Vector2i.ZERO)
 
-  hud.add_score(scores.food)
+  var tile = food.get_cell_atlas_coords(pos)
   food.erase_cell(pos)
-  add_segment(pos)
+
+  if tile == FOOD_TILES.red:
+    hud.add_score(scores.red)
+    add_segment(pos)
+  elif tile == FOOD_TILES.green:
+    hud.add_score(scores.green)
+    pos_current.resize(max(3, pos_current.size() - FOOD_SWALLOW))
+    food.set_cell(pos_current[-1], 1, FOOD_TILES.yellow)
+  elif tile == FOOD_TILES.yellow:
+    hud.add_score(scores.yellow)
+    for i in range(FOOD_SWALLOW):
+      _on_timer_timeout.call_deferred()
+      add_segment.call_deferred(pos)
