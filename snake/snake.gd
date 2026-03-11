@@ -226,7 +226,7 @@ func add_food() -> void:
   while true:
     var pos := Vector2i(randi() % rect.size.x, randi() % rect.size.y)
 
-    if walls.get_cell_source_id(pos) < 0 and snake.get_cell_source_id(pos) < 0:
+    if walls.get_cell_source_id(pos) < 0 and snake.get_cell_source_id(pos) < 0 and food.get_cell_source_id(pos) < 0:
       var tile := default_food
       if randi() % 5 == 0 and food.get_used_cells().size() > 0:
         tile = FOOD_TILES.yellow
