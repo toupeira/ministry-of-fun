@@ -11,7 +11,7 @@ extends Node2D
 
 const SPEED := 10
 const SNAKE_SIZE := 3
-const BOOSTER := 12
+const BOOSTER := 10
 const FOOD_FREQUENCY := 30
 const FOOD_MAX := 10
 
