@@ -11,17 +11,22 @@ extends Node2D
 
 const SPEED := 10
 const SNAKE_SIZE := 3
+const BOOSTER := 12
 const FOOD_FREQUENCY := 30
-const FOOD_BOOSTER := 12
 const FOOD_MAX := 10
 
-var cycles := 0
+var ticks := 0
 var pos_start := Vector2i(12, 9)
 var segments: Array[Vector2i] = []
-var add_segments := 0
 var snake_variant := Vector2i.ZERO
 var head_variant := Vector2i.ZERO
 var god_mode := false
+
+var queue: Dictionary[String, int] = {
+  add = 0,
+  remove = 0,
+  boost = 0,
+}
 
 var directions: Dictionary[String, Vector2i] = {
   current = Vector2i.ZERO,
@@ -78,30 +83,29 @@ const SNAKE_TILES := {
 
 func _ready() -> void:
   hud.set_title('Snake')
-  timer.wait_time = 1.0 / SPEED
   start_game()
 
 func _on_timer_timeout() -> void:
-  cycles += 1
+  ticks += 1
   move_snake()
   add_food()
 
 func _input(event: InputEvent) -> void:
   if event.is_action_pressed('debug-god-mode'):
     god_mode = !god_mode
-    hud.log_debug('God mode ' + ('Enabled' if god_mode else 'Disabled'))
+    hud.log('God mode ' + ('Enabled' if god_mode else 'Disabled'))
     return
   elif event.is_action_pressed('debug-1'):
     default_food = FOOD_TILES.red
-    hud.log_debug('preferring Red food')
+    hud.log('preferring Red food')
     return
   elif event.is_action_pressed('debug-2'):
     default_food = FOOD_TILES.green
-    hud.log_debug('preferring Green food')
+    hud.log('preferring Green food')
     return
   elif event.is_action_pressed('debug-3'):
     default_food = FOOD_TILES.yellow
-    hud.log_debug('preferring Yellow food')
+    hud.log('preferring Yellow food')
     return
   elif hud.is_game_over():
     if event.is_action_pressed('start'):
@@ -123,16 +127,22 @@ func _input(event: InputEvent) -> void:
     timer.start()
     move_snake()
 
+func set_speed(speed: int) -> void:
+  timer.wait_time = 1.0 / speed
+
 func start_game() -> void:
   hud.set_score(0)
   hud.reset()
 
   directions.current = Vector2i.RIGHT
+  set_speed(SPEED)
 
   snake.clear()
   food.clear()
   segments.clear()
-  add_segments = 0
+  queue.add = 0
+  queue.remove = 0
+  queue.boost = 0
 
   snake_variant = Vector2i(0, 7 * (randi() % 3))
   head_variant = Vector2i.ZERO
@@ -170,19 +180,12 @@ func render_snake() -> void:
 
       if lastDirection and direction != lastDirection:
         var corner_tile: Vector2i = SNAKE_TILES.corners.get([direction, lastDirection], Vector2i.ZERO)
-        if corner_tile != Vector2i.ZERO:
-          snake.set_cell(lastSegment, 1, corner_tile + snake_variant)
-        else:
-          print("Invalid corner:")
-          print(segment, lastSegment, direction, lastDirection)
+        assert(corner_tile != Vector2i.ZERO, 'Invalid corner')
+        snake.set_cell(lastSegment, 1, corner_tile + snake_variant)
       lastDirection = direction
 
-    if tile != Vector2i.ZERO:
-      snake.set_cell(segment, 1, tile + snake_variant)
-    else:
-      print("Invalid direction:")
-      print(segment, lastSegment, lastDirection)
-
+    assert(tile != Vector2i.ZERO, 'Invalid direction')
+    snake.set_cell(segment, 1, tile + snake_variant)
     lastSegment = segment
 
 func move_snake() -> void:
@@ -206,20 +209,41 @@ func move_snake() -> void:
     eat_food(head)
 
   # Move snake segments
-  var tail = segments[-1]
+  var tail := segments[-1]
   segments = segments.slice(0, -1)
   segments.insert(0, head)
   directions.current = directions.next
 
-  if add_segments > 0:
+  # Add segments
+  if queue.add > 0:
     segments.append(tail)
-    add_segments -= 1
+    queue.add -= 1
+
+  # Remove segments
+  if queue.remove > 0:
+    segments.resize(maxi(3, segments.size() - 3))
+    queue.remove = maxi(0, queue.remove - 3)
+    if queue.remove == 0:
+      food.set_cell(segments[-1], 1, FOOD_TILES.yellow)
+
+  # Boost speed
+  if queue.boost > 0:
+    set_speed(SPEED * 3)
+    queue.boost -= 1
+    if queue.boost == 0:
+      set_speed(SPEED)
+
+    spawn_particles(
+      Smoke,
+      Util.get_tile_position(food, segments[0]),
+      directions.current
+    )
 
   render_snake()
 
 func add_food() -> void:
   var count := food.get_used_cells().size()
-  if count > FOOD_MAX or not (count == 0 or cycles % FOOD_FREQUENCY == 1):
+  if count > FOOD_MAX or not (count == 0 or ticks % FOOD_FREQUENCY == 1):
     return
 
   var rect := walls.get_used_rect()
@@ -230,7 +254,7 @@ func add_food() -> void:
       var tile := default_food
       if randi() % 5 == 0 and food.get_used_cells().size() > 0:
         tile = FOOD_TILES.yellow
-      elif segments.size() > FOOD_BOOSTER * 2 and randi() % 5 == 0 and food.get_used_cells_by_id(1, FOOD_TILES.green).size() == 0:
+      elif segments.size() > BOOSTER * 2 and randi() % 5 == 0 and food.get_used_cells_by_id(1, FOOD_TILES.green).size() == 0:
         tile = FOOD_TILES.green
       food.set_cell(pos, 1, tile)
       return
@@ -249,28 +273,14 @@ func eat_food(pos: Vector2i) -> void:
 
   if tile == FOOD_TILES.red:
     hud.add_score(scores.red)
-    add_segments += 1
+    queue.add += 1
   elif tile == FOOD_TILES.green:
     hud.add_score(scores.green)
-    for i in range(FOOD_BOOSTER):
-      await sleep(1.0 / SPEED / 4)
-      segments.resize(maxi(3, segments.size() - 1))
-      render_snake()
-    food.set_cell(segments[-1], 1, FOOD_TILES.yellow)
+    queue.remove += BOOSTER
   elif tile == FOOD_TILES.yellow:
     hud.add_score(scores.yellow)
-    for i in range(FOOD_BOOSTER / 1.5):
-      await sleep(1.0 / SPEED / 1.5)
-      _on_timer_timeout()
-      add_segments += 1
-      spawn_particles(
-        Smoke,
-        Util.get_tile_position(food, segments[0]),
-        directions.current
-      )
-
-func sleep(seconds: float) -> Signal:
-  return get_tree().create_timer(seconds).timeout
+    queue.add += BOOSTER
+    queue.boost += BOOSTER
 
 func spawn_particles(particles_class: PackedScene, pos: Vector2i, direction: Vector2i) -> void:
   var particles: GPUParticles2D = particles_class.instantiate()

@@ -49,7 +49,7 @@ func reset() -> void:
 func is_game_over() -> bool:
   return game_over_panel.visible
 
-func log_debug(message: String) -> void:
+func log(message: String) -> void:
   debug_messages.append(message)
   debug_label.text = "\n".join(debug_messages)
   debug_label.visible = true
