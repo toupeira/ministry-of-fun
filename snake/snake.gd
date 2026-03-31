@@ -9,6 +9,11 @@ extends Node2D
 @onready var snake: TileMapLayer = %Snake
 @onready var food: TileMapLayer = %Food
 
+@onready var audio_eat: AudioStreamPlayer = %AudioEat
+@onready var audio_boost: AudioStreamPlayer = %AudioBoost
+@onready var audio_shrink: AudioStreamPlayer = %AudioShrink
+@onready var audio_death: AudioStreamPlayer = %AudioDeath
+
 const SPEED := 10
 const SNAKE_SIZE := 3
 const BOOSTER := 10
@@ -157,6 +162,7 @@ func start_game() -> void:
 func end_game() -> void:
   timer.stop()
   if not god_mode:
+    audio_death.play()
     hud.game_over()
 
 func render_snake() -> void:
@@ -243,7 +249,7 @@ func move_snake() -> void:
 
 func add_food() -> void:
   var count := food.get_used_cells().size()
-  if count > FOOD_MAX or not (count == 0 or ticks % FOOD_FREQUENCY == 1):
+  if count > FOOD_MAX or not (count == 0 or ticks % FOOD_FREQUENCY == 0):
     return
 
   var rect := walls.get_used_rect()
@@ -272,12 +278,15 @@ func eat_food(pos: Vector2i) -> void:
   food.erase_cell(pos)
 
   if tile == FOOD_TILES.red:
+    audio_eat.play()
     hud.add_score(scores.red)
     queue.add += 1
   elif tile == FOOD_TILES.green:
+    audio_shrink.play()
     hud.add_score(scores.green)
     queue.remove += BOOSTER
   elif tile == FOOD_TILES.yellow:
+    audio_boost.play()
     hud.add_score(scores.yellow)
     queue.add += BOOSTER
     queue.boost += BOOSTER

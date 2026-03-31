@@ -5,6 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://w38ekea1d6hv" path="res://shared/hud.tscn" id="2_vtpab"]
 [ext_resource type="Texture2D" uid="uid://cn6qxfhn0e3gm" path="res://assets/backgrounds/Nature Landscapes/nature 2/origbig.png" id="3_vtpab"]
 [ext_resource type="Shader" uid="uid://ctrfek1i5k82m" path="res://shared/color_cycler.gdshader" id="5_rwqi7"]
+[ext_resource type="AudioStream" uid="uid://cxnqffl1kii56" path="res://snake/sounds/eat.ogg" id="6_ceet7"]
+[ext_resource type="AudioStream" uid="uid://cf5s4dgckjq7a" path="res://snake/sounds/boost.ogg" id="7_kjpqp"]
+[ext_resource type="AudioStream" uid="uid://dfqqxjeanqyjc" path="res://snake/sounds/shrink.ogg" id="8_nveb8"]
+[ext_resource type="AudioStream" uid="uid://ccny6f2ri8e6b" path="res://snake/sounds/death.ogg" id="9_qpv3m"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c6obg"]
 shader = ExtResource("5_rwqi7")
@@ -44,5 +48,21 @@ tile_set = ExtResource("2_iujm3")
 [node name="Food" type="TileMapLayer" parent="Tiles" unique_id=1739448336]
 unique_name_in_owner = true
 tile_set = ExtResource("2_iujm3")
+
+[node name="AudioEat" type="AudioStreamPlayer" parent="." unique_id=152689629]
+unique_name_in_owner = true
+stream = ExtResource("6_ceet7")
+
+[node name="AudioBoost" type="AudioStreamPlayer" parent="." unique_id=1896799568]
+unique_name_in_owner = true
+stream = ExtResource("7_kjpqp")
+
+[node name="AudioShrink" type="AudioStreamPlayer" parent="." unique_id=1320848761]
+unique_name_in_owner = true
+stream = ExtResource("8_nveb8")
+
+[node name="AudioDeath" type="AudioStreamPlayer" parent="." unique_id=1299962588]
+unique_name_in_owner = true
+stream = ExtResource("9_qpv3m")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
