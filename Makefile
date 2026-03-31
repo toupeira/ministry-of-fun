@@ -1,6 +1,9 @@
 clean:
 	rm -r build
 
+import:
+	godot --headless --import
+
 web:
 	rm -rf build/web
 	mkdir -p build/web
