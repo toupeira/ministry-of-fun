@@ -1,14 +1,19 @@
 class_name Hud
 extends CanvasLayer
 
-var score := 0
-
 @onready var title: Label = %Title
 @onready var details: Label = %Details
 @onready var game_over_panel: Control = %GameOver
 @onready var debug_label: Label = %DebugLabel
 
+var score := 0
 var debug_messages: Array[String] = []
+
+var touch_drag := false
+var touch_start := Vector2.ZERO
+
+func _ready() -> void:
+  Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func _input(event: InputEvent) -> void:
   if event.is_action_pressed('fullscreen'):
@@ -19,6 +24,31 @@ func _input(event: InputEvent) -> void:
       window.mode = Window.MODE_WINDOWED
   elif event.is_action_pressed('quit'):
     get_tree().quit()
+  elif event is InputEventScreenTouch:
+    var touch := event as InputEventScreenTouch
+    if touch.pressed:
+      touch_drag = true
+      if touch_start == Vector2.ZERO:
+        touch_start = touch.position
+    elif touch_drag:
+      touch_drag = false
+      if touch_start != Vector2.ZERO:
+        var input := InputEventAction.new()
+        input.pressed = true
+
+        var swipe := touch.position - touch_start
+        touch_start = Vector2.ZERO
+
+        if is_game_over():
+          input.action = 'start'
+        elif swipe.length() < 20:
+          return
+        elif abs(swipe.y) > abs(swipe.x):
+          input.action = 'up' if swipe.y < 0 else 'down'
+        else:
+          input.action = 'left' if swipe.x < 0 else 'right'
+
+        Input.parse_input_event(input)
 
 func set_title(text: String) -> void:
   title.text = text
