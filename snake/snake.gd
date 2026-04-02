@@ -266,19 +266,22 @@ func add_food() -> void:
       return
 
 func eat_food(pos: Vector2i) -> void:
+  audio_eat.play()
+
   head_variant = Vector2i(3, 0)
   var sprite := Sprite2D.new()
   sprite.modulate.a = 0.4
   sprite.texture = Util.get_tile_image(food, pos)
   sprite.position = Util.get_tile_position(food, pos)
   add_child(sprite)
-  Util.grow_and_fade(sprite).tween_callback(func() -> void: head_variant = Vector2i.ZERO)
+  Util.grow_and_fade(sprite).tween_callback(
+    func() -> void: head_variant = Vector2i.ZERO
+  )
 
   var tile := food.get_cell_atlas_coords(pos)
   food.erase_cell(pos)
 
   if tile == FOOD_TILES.red:
-    audio_eat.play()
     hud.add_score(scores.red)
     queue.add += 1
   elif tile == FOOD_TILES.green:
