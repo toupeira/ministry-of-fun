@@ -24,7 +24,7 @@ var ticks := 0
 var pos_start := Vector2i(12, 9)
 var segments: Array[Vector2i] = []
 var snake_variant := Vector2i.ZERO
-var head_variant := Vector2i.ZERO
+var eating := false
 var god_mode := false
 
 var queue: Dictionary[String, int] = {
@@ -58,6 +58,20 @@ const SNAKE_TILES := {
     Vector2i.LEFT: Vector2i(1, 4),
     Vector2i.DOWN: Vector2i(1, 5),
     Vector2i.RIGHT: Vector2i(1, 6),
+  },
+
+  head_eating = {
+    Vector2i.UP: Vector2i(0, 3),
+    Vector2i.LEFT: Vector2i(0, 4),
+    Vector2i.DOWN: Vector2i(0, 5),
+    Vector2i.RIGHT: Vector2i(0, 6),
+  },
+
+  head_dead = {
+    Vector2i.UP: Vector2i(8, 3),
+    Vector2i.LEFT: Vector2i(8, 4),
+    Vector2i.DOWN: Vector2i(8, 5),
+    Vector2i.RIGHT: Vector2i(8, 6),
   },
 
   body = {
@@ -112,7 +126,7 @@ func _input(event: InputEvent) -> void:
     default_food = FOOD_TILES.yellow
     hud.log('preferring Yellow food')
     return
-  elif hud.is_game_over():
+  elif hud.is_game_over:
     if event.is_action_pressed('start'):
       start_game()
     return
@@ -150,7 +164,7 @@ func start_game() -> void:
   queue.boost = 0
 
   snake_variant = Vector2i(0, 7 * (randi() % 3))
-  head_variant = Vector2i.ZERO
+  eating = false
 
   (snake.material as ShaderMaterial).set_shader_parameter('intensity', 0)
 
@@ -164,11 +178,13 @@ func end_game() -> void:
   if not god_mode:
     audio_death.play()
     hud.game_over()
+    render_snake()
 
 func render_snake() -> void:
   snake.clear()
 
-  var tile: Vector2i = SNAKE_TILES.head[directions.current] + head_variant
+  var tile: Vector2i
+  var source: int
   var lastSegment: Vector2i
   var lastDirection: Vector2i
 
@@ -178,6 +194,7 @@ func render_snake() -> void:
   for index in range(segments.size()):
     var segment := segments[index]
     if lastSegment:
+      source = 1
       var direction := lastSegment - segment
       if index == segments.size() - 1:
         tile = SNAKE_TILES.tail.get(direction, Vector2i.ZERO)
@@ -187,15 +204,24 @@ func render_snake() -> void:
       if lastDirection and direction != lastDirection:
         var corner_tile: Vector2i = SNAKE_TILES.corners.get([direction, lastDirection], Vector2i.ZERO)
         assert(corner_tile != Vector2i.ZERO, 'Invalid corner')
-        snake.set_cell(lastSegment, 1, corner_tile + snake_variant)
+        snake.set_cell(lastSegment, source, corner_tile + snake_variant)
       lastDirection = direction
+    elif hud.is_game_over:
+      source = 3
+      tile = SNAKE_TILES.head_dead[directions.current]
+    elif eating:
+      source = 3
+      tile = SNAKE_TILES.head_eating[directions.current]
+    else:
+      source = 1
+      tile = SNAKE_TILES.head[directions.current]
 
     assert(tile != Vector2i.ZERO, 'Invalid direction')
-    snake.set_cell(segment, 1, tile + snake_variant)
+    snake.set_cell(segment, source, tile + snake_variant)
     lastSegment = segment
 
 func move_snake() -> void:
-  if hud.is_game_over():
+  if hud.is_game_over:
     return
 
   # Calculate new head position
@@ -268,14 +294,15 @@ func add_food() -> void:
 func eat_food(pos: Vector2i) -> void:
   audio_eat.play()
 
-  head_variant = Vector2i(3, 0)
+  eating = true
   var sprite := Sprite2D.new()
-  sprite.modulate.a = 0.4
+  sprite.modulate.a = 0.75
   sprite.texture = Util.get_tile_image(food, pos)
   sprite.position = Util.get_tile_position(food, pos)
   add_child(sprite)
-  Util.grow_and_fade(sprite).tween_callback(
-    func() -> void: head_variant = Vector2i.ZERO
+  Util.grow_and_fade(sprite)
+  get_tree().create_timer(0.5).connect('timeout',
+    func() -> void: eating = false
   )
 
   var tile := food.get_cell_atlas_coords(pos)

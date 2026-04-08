@@ -7,6 +7,7 @@ extends CanvasLayer
 @onready var debug_label: Label = %DebugLabel
 
 var score := 0
+var is_game_over := false
 var debug_messages: Array[String] = []
 
 var touch_drag := false
@@ -39,7 +40,7 @@ func _input(event: InputEvent) -> void:
         var swipe := touch.position - touch_start
         touch_start = Vector2.ZERO
 
-        if is_game_over():
+        if is_game_over:
           input.action = 'start'
         elif swipe.length() < 20:
           return
@@ -65,19 +66,20 @@ func add_score(value: int) -> void:
   set_score(score)
 
 func game_over() -> void:
+  is_game_over = true
+
   game_over_panel.modulate.a = 0.0
   game_over_panel.visible = true
   var tween := game_over_panel.create_tween()
-  tween.tween_property(game_over_panel, 'modulate:a', 1, 0.1)
+  tween.tween_property(game_over_panel, 'modulate:a', 1, 0.2)
 
 func reset() -> void:
   score = 0
-  var tween := game_over_panel.create_tween()
-  tween.tween_property(game_over_panel, 'modulate:a', 0, 0.1)
-  tween.tween_callback(func() -> void: game_over_panel.visible = false)
+  is_game_over = false
 
-func is_game_over() -> bool:
-  return game_over_panel.visible
+  var tween := game_over_panel.create_tween()
+  tween.tween_property(game_over_panel, 'modulate:a', 0, 0.2)
+  tween.tween_callback(func() -> void: game_over_panel.visible = false)
 
 func log(message: String) -> void:
   debug_messages.append(message)
