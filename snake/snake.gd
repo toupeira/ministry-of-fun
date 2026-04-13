@@ -322,7 +322,6 @@ func eat_food(pos: Vector2i) -> void:
 func spawn_particles(particles_class: PackedScene, pos: Vector2i, direction: Vector2i) -> void:
   var particles: GPUParticles2D = particles_class.instantiate()
   particles.global_position = pos
-  particles.one_shot = true
   if direction:
     particles.rotation = Vector2(direction).angle()
   add_child(particles)
