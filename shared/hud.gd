@@ -3,7 +3,7 @@ extends CanvasLayer
 
 @onready var title: Label = %Title
 @onready var details: Label = %Details
-@onready var game_over_panel: Control = %GameOver
+@onready var menu: Menu = %Menu
 @onready var debug_label: Label = %DebugLabel
 
 var score := 0
@@ -17,7 +17,9 @@ func _ready() -> void:
   Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func _input(event: InputEvent) -> void:
-  if event.is_action_pressed('fullscreen'):
+  if event.is_action_pressed('start'):
+    menu.toggle(is_game_over)
+  elif event.is_action_pressed('fullscreen'):
     var window := get_window()
     if window.mode == Window.MODE_WINDOWED:
       window.mode = Window.MODE_EXCLUSIVE_FULLSCREEN
@@ -67,19 +69,11 @@ func add_score(value: int) -> void:
 
 func game_over() -> void:
   is_game_over = true
-
-  game_over_panel.modulate.a = 0.0
-  game_over_panel.visible = true
-  var tween := game_over_panel.create_tween()
-  tween.tween_property(game_over_panel, 'modulate:a', 1, 0.2)
+  menu.toggle(is_game_over)
 
 func reset() -> void:
   score = 0
   is_game_over = false
-
-  var tween := game_over_panel.create_tween()
-  tween.tween_property(game_over_panel, 'modulate:a', 0, 0.2)
-  tween.tween_callback(func() -> void: game_over_panel.visible = false)
 
 func log(message: String) -> void:
   debug_messages.append(message)

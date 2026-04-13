@@ -21,7 +21,6 @@ const FOOD_FREQUENCY := 30
 const FOOD_MAX := 10
 
 var ticks := 0
-var pos_start := Vector2i(12, 9)
 var segments: Array[Vector2i] = []
 var snake_variant := Vector2i.ZERO
 var eating := false
@@ -127,8 +126,6 @@ func _input(event: InputEvent) -> void:
     hud.log('preferring Yellow food')
     return
   elif hud.is_game_over:
-    if event.is_action_pressed('start'):
-      start_game()
     return
 
   if event.is_action_pressed('up') and directions.current != Vector2i.DOWN:
@@ -150,7 +147,6 @@ func set_speed(speed: int) -> void:
   timer.wait_time = 1.0 / speed
 
 func start_game() -> void:
-  hud.set_score(0)
   hud.reset()
 
   directions.current = Vector2i.RIGHT
@@ -168,8 +164,10 @@ func start_game() -> void:
 
   (snake.material as ShaderMaterial).set_shader_parameter('intensity', 0)
 
+  var rect := walls.get_used_rect()
+  var start = Vector2i(rect.size.x * 0.3, rect.size.y * 0.5)
   for i in range(SNAKE_SIZE):
-    segments.append(pos_start - i * directions.current)
+    segments.append(start - i * directions.current)
 
   render_snake()
 
