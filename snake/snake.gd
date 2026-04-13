@@ -183,27 +183,27 @@ func render_snake() -> void:
 
   var tile: Vector2i
   var source: int
-  var lastSegment: Vector2i
-  var lastDirection: Vector2i
+  var last_segment: Vector2i
+  var last_direction: Vector2i
 
   var intensity := minf(0.8, 0.1 + pow(segments.size(), 2.3) / 100_000)
   (snake.material as ShaderMaterial).set_shader_parameter('intensity', intensity)
 
   for index in range(segments.size()):
     var segment := segments[index]
-    if lastSegment:
+    if last_segment:
       source = 1
-      var direction := lastSegment - segment
+      var direction := last_segment - segment
       if index == segments.size() - 1:
         tile = SNAKE_TILES.tail.get(direction, Vector2i.ZERO)
       else:
         tile = SNAKE_TILES.body.get(direction, Vector2i.ZERO)
 
-      if lastDirection and direction != lastDirection:
-        var corner_tile: Vector2i = SNAKE_TILES.corners.get([direction, lastDirection], Vector2i.ZERO)
+      if last_direction and direction != last_direction:
+        var corner_tile: Vector2i = SNAKE_TILES.corners.get([direction, last_direction], Vector2i.ZERO)
         assert(corner_tile != Vector2i.ZERO, 'Invalid corner')
-        snake.set_cell(lastSegment, source, corner_tile + snake_variant)
-      lastDirection = direction
+        snake.set_cell(last_segment, source, corner_tile + snake_variant)
+      last_direction = direction
     elif hud.is_game_over:
       source = 3
       tile = SNAKE_TILES.head_dead[directions.current]
@@ -216,7 +216,7 @@ func render_snake() -> void:
 
     assert(tile != Vector2i.ZERO, 'Invalid direction')
     snake.set_cell(segment, source, tile + snake_variant)
-    lastSegment = segment
+    last_segment = segment
 
 func move_snake() -> void:
   if hud.is_game_over:
