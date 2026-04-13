@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 @onready var Smoke: PackedScene = preload('res://snake/smoke.tscn')
 
@@ -165,7 +165,7 @@ func start_game() -> void:
   (snake.material as ShaderMaterial).set_shader_parameter('intensity', 0)
 
   var rect := walls.get_used_rect()
-  var start = Vector2i(rect.size.x * 0.3, rect.size.y * 0.5)
+  var start := Vector2i(int(rect.size.x * 0.3), int(rect.size.y * 0.5))
   for i in range(SNAKE_SIZE):
     segments.append(start - i * directions.current)
 

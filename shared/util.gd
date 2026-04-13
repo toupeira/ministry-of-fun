@@ -1,5 +1,4 @@
 class_name Util
-extends Node
 
 static func grow_and_fade(node: Node, size := 4.0, speed := 0.25) -> Tween:
   var tween := node.create_tween()
