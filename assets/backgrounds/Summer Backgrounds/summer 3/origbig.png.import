@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cymni2s0uj3v"
-path="res://.godot/imported/10.png-f393a7905077e3073a93bac0fe95645d.ctex"
+uid="uid://bs1gh3jwl6mm6"
+path="res://.godot/imported/origbig.png-731638e1237414350250e037f0cae438.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/backgrounds/City Backgrounds/city 2/10.png"
-dest_files=["res://.godot/imported/10.png-f393a7905077e3073a93bac0fe95645d.ctex"]
+source_file="res://assets/backgrounds/Summer Backgrounds/summer 3/origbig.png"
+dest_files=["res://.godot/imported/origbig.png-731638e1237414350250e037f0cae438.ctex"]
 
 [params]
 
