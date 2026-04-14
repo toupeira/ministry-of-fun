@@ -64,15 +64,14 @@ func set_score(value: int) -> void:
   set_details('Score: ' + str(score))
 
 func add_score(value: int) -> void:
-  score += value
-  set_score(score)
+  set_score(score + value)
 
 func game_over() -> void:
   is_game_over = true
   menu.toggle(is_game_over)
 
 func reset() -> void:
-  score = 0
+  set_score(0)
   is_game_over = false
 
 func log(message: String) -> void:
