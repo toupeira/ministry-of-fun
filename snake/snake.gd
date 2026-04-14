@@ -1,7 +1,5 @@
 extends Node
 
-@onready var Smoke: PackedScene = preload('res://snake/smoke.tscn')
-
 @onready var timer: Timer = %Timer
 @onready var hud: Hud = %Hud
 
@@ -13,6 +11,8 @@ extends Node
 @onready var audio_boost: AudioStreamPlayer = %AudioBoost
 @onready var audio_shrink: AudioStreamPlayer = %AudioShrink
 @onready var audio_death: AudioStreamPlayer = %AudioDeath
+
+const Smoke: PackedScene = preload('res://snake/smoke.tscn')
 
 const SPEED := 10
 const SNAKE_SIZE := 3

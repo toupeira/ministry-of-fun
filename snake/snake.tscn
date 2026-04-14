@@ -3,7 +3,8 @@
 [ext_resource type="Script" uid="uid://bryc5uemmo4bs" path="res://snake/snake.gd" id="1_j2kkt"]
 [ext_resource type="TileSet" uid="uid://c5cnhdne8rbs4" path="res://snake/tileset.tres" id="2_iujm3"]
 [ext_resource type="PackedScene" uid="uid://w38ekea1d6hv" path="res://shared/hud.tscn" id="2_vtpab"]
-[ext_resource type="Texture2D" uid="uid://cn6qxfhn0e3gm" path="res://assets/backgrounds/Nature Landscapes/nature 2/origbig.png" id="3_vtpab"]
+[ext_resource type="PackedScene" uid="uid://cqppi1mshtp4" path="res://shared/random_background.tscn" id="3_ceet7"]
+[ext_resource type="Texture2D" uid="uid://bi01w7lij5qbq" path="res://assets/backgrounds/City Backgrounds/city 2/origbig.png" id="4_kjpqp"]
 [ext_resource type="Shader" uid="uid://ctrfek1i5k82m" path="res://shared/color_cycler.gdshader" id="5_rwqi7"]
 [ext_resource type="AudioStream" uid="uid://cxnqffl1kii56" path="res://assets/sounds/snake/eat.ogg" id="6_ceet7"]
 [ext_resource type="AudioStream" uid="uid://cf5s4dgckjq7a" path="res://assets/sounds/snake/boost.ogg" id="7_kjpqp"]
@@ -25,13 +26,8 @@ unique_name_in_owner = true
 [node name="Hud" parent="." unique_id=1801158998 instance=ExtResource("2_vtpab")]
 unique_name_in_owner = true
 
-[node name="Background" type="TextureRect" parent="." unique_id=583833013]
-modulate = Color(1, 1, 1, 0.25)
-offset_right = 640.0
-offset_bottom = 360.0
-texture = ExtResource("3_vtpab")
-expand_mode = 1
-stretch_mode = 6
+[node name="RandomBackground" parent="." unique_id=1401162868 instance=ExtResource("3_ceet7")]
+texture = ExtResource("4_kjpqp")
 
 [node name="Tiles" type="Node2D" parent="." unique_id=635228775]
 position = Vector2(0, 24)
