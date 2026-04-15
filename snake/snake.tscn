@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bryc5uemmo4bs" path="res://snake/snake.gd" id="1_j2kkt"]
 [ext_resource type="TileSet" uid="uid://c5cnhdne8rbs4" path="res://snake/tileset.tres" id="2_iujm3"]
+[ext_resource type="PackedScene" uid="uid://cf67ull5o6cyb" path="res://shared/shaking_camera.tscn" id="2_nveb8"]
 [ext_resource type="PackedScene" uid="uid://w38ekea1d6hv" path="res://shared/hud.tscn" id="2_vtpab"]
 [ext_resource type="PackedScene" uid="uid://cqppi1mshtp4" path="res://shared/random_background.tscn" id="3_ceet7"]
 [ext_resource type="Shader" uid="uid://ctrfek1i5k82m" path="res://shared/color_cycler.gdshader" id="5_rwqi7"]
@@ -18,6 +19,9 @@ shader_parameter/spatial_scale = 4.0
 
 [node name="Snake" type="Node" unique_id=1592328004]
 script = ExtResource("1_j2kkt")
+
+[node name="Camera" parent="." unique_id=290250243 instance=ExtResource("2_nveb8")]
+unique_name_in_owner = true
 
 [node name="Timer" type="Timer" parent="." unique_id=740464833]
 unique_name_in_owner = true

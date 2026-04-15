@@ -1,5 +1,6 @@
 extends Node
 
+@onready var camera: ShakingCamera = %Camera
 @onready var timer: Timer = %Timer
 @onready var hud: Hud = %Hud
 
@@ -174,6 +175,7 @@ func start_game() -> void:
 func end_game() -> void:
   timer.stop()
   if not god_mode:
+    camera.apply_shake(1.0)
     audio_death.play()
     hud.game_over()
     render_snake()
@@ -314,6 +316,7 @@ func eat_food(pos: Vector2i) -> void:
     hud.add_score(scores.green)
     queue.remove += BOOSTER
   elif tile == FOOD_TILES.yellow:
+    camera.apply_shake(0.8)
     audio_boost.play()
     hud.add_score(scores.yellow)
     queue.add += BOOSTER
