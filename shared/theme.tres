@@ -1,0 +1,13 @@
+[gd_resource type="Theme" format=3 uid="uid://clu0l0h4i7jck"]
+
+[ext_resource type="FontFile" uid="uid://ocvkg3o3lf8s" path="res://assets/fonts/PixelOperatorSC.ttf" id="1_eno14"]
+
+[resource]
+default_font = ExtResource("1_eno14")
+Button/colors/font_color = Color(0.46666667, 0.46666667, 0.46666667, 1)
+Button/colors/font_focus_color = Color(0.73333335, 0.73333335, 0.73333335, 1)
+Button/colors/font_hover_color = Color(0.73333335, 0.73333335, 0.73333335, 1)
+Button/colors/font_hover_pressed_color = Color(0.73333335, 0.73333335, 0.73333335, 1)
+Button/colors/font_pressed_color = Color(0.73333335, 0.73333335, 0.73333335, 1)
+Label/colors/font_color = Color(0.73333335, 0.73333335, 0.73333335, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 1)

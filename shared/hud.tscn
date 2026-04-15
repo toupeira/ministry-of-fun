@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://w38ekea1d6hv"]
 
 [ext_resource type="Script" uid="uid://dqn2wybx7aqe0" path="res://shared/hud.gd" id="1_8g6yn"]
-[ext_resource type="LabelSettings" uid="uid://bbgfcua1x7bvb" path="res://shared/label_setting.tres" id="2_qha2f"]
 [ext_resource type="PackedScene" uid="uid://n27wsxb53vwt" path="res://shared/menu.tscn" id="4_xl8re"]
 
 [node name="Hud" type="CanvasLayer" unique_id=1801158998]
@@ -22,7 +21,6 @@ offset_top = 1.0
 offset_right = 315.0
 offset_bottom = 23.0
 text = "Game Name"
-label_settings = ExtResource("2_qha2f")
 vertical_alignment = 1
 
 [node name="Details" type="Label" parent="." unique_id=916428531]
@@ -36,7 +34,6 @@ offset_right = -5.0
 offset_bottom = 23.0
 grow_horizontal = 0
 text = "Details"
-label_settings = ExtResource("2_qha2f")
 horizontal_alignment = 2
 vertical_alignment = 1
 
@@ -56,5 +53,4 @@ offset_top = -20.0
 offset_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 0
-label_settings = ExtResource("2_qha2f")
 vertical_alignment = 2
