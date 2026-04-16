@@ -18,7 +18,6 @@ const backgrounds: Array[Texture2D] = [
   preload('res://assets/backgrounds/summer/summer2.png'),
   preload('res://assets/backgrounds/summer/summer4.png'),
   preload('res://assets/backgrounds/summer/summer5.png'),
-  preload('res://assets/backgrounds/summer/summer6.png'),
   preload('res://assets/backgrounds/summer/summer7.png'),
   preload('res://assets/backgrounds/summer/summer8.png'),
 ]
