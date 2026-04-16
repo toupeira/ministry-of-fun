@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://ct3crnwwi1uly" path="res://shared/shaking_camera.gd" id="1_tqm0n"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_tqm0n"]
-noise_type = 3
 
 [node name="Camera" type="Camera2D" unique_id=290250243]
 position = Vector2(320, 180)

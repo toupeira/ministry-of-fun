@@ -3,9 +3,9 @@ extends Camera2D
 
 @export var noise: FastNoiseLite
 
-const DECAY := 0.8              # time of shake in seconds
+const DECAY := 0.7              # time of shake in seconds
 const OFFSET := Vector2(30, 20) # maximum offset in pixels
-const ROTATION := 5             # maximum rotation in degrees
+const ROTATION := 4             # maximum rotation in degrees
 
 var shake := 0.0 # shake amount
 var decay := 0.0 # decay time scaled by shake amount
