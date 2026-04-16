@@ -17,16 +17,12 @@ func _ready() -> void:
   Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func _input(event: InputEvent) -> void:
-  if event.is_action_pressed('start'):
+  if event.is_action_pressed('quit'):
+    menu.quit()
+  elif event.is_action_pressed('start'):
     menu.toggle(is_game_over)
   elif event.is_action_pressed('fullscreen'):
-    var window := get_window()
-    if window.mode == Window.MODE_WINDOWED:
-      window.mode = Window.MODE_EXCLUSIVE_FULLSCREEN
-    else:
-      window.mode = Window.MODE_WINDOWED
-  elif event.is_action_pressed('quit'):
-    get_tree().quit()
+    menu.toggle_fullscreen()
   elif event is InputEventMouseButton:
     var click := event as InputEventMouseButton
     if click.pressed:

@@ -57,10 +57,12 @@ layout_mode = 2
 text = "Continue"
 
 [node name="ButtonRestart" type="Button" parent="VBoxContainer" unique_id=1103494635]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Restart"
 
 [node name="ButtonQuit" type="Button" parent="VBoxContainer" unique_id=415010441]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Quit"
 
