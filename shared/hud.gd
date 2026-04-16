@@ -10,8 +10,8 @@ var score := 0
 var is_game_over := false
 var debug_messages: Array[String] = []
 
-var touch_drag := false
-var touch_start := Vector2.ZERO
+var click_drag := false
+var click_start := Vector2.ZERO
 
 func _ready() -> void:
   Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -27,20 +27,20 @@ func _input(event: InputEvent) -> void:
       window.mode = Window.MODE_WINDOWED
   elif event.is_action_pressed('quit'):
     get_tree().quit()
-  elif event is InputEventScreenTouch:
-    var touch := event as InputEventScreenTouch
-    if touch.pressed:
-      touch_drag = true
-      if touch_start == Vector2.ZERO:
-        touch_start = touch.position
-    elif touch_drag:
-      touch_drag = false
-      if touch_start != Vector2.ZERO:
+  elif event is InputEventMouseButton:
+    var click := event as InputEventMouseButton
+    if click.pressed:
+      click_drag = true
+      if click_start == Vector2.ZERO:
+        click_start = click.position
+    elif click_drag:
+      click_drag = false
+      if click_start != Vector2.ZERO:
         var input := InputEventAction.new()
         input.pressed = true
 
-        var swipe := touch.position - touch_start
-        touch_start = Vector2.ZERO
+        var swipe := click.position - click_start
+        click_start = Vector2.ZERO
 
         if is_game_over:
           input.action = 'start'
