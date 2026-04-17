@@ -13,7 +13,7 @@ color = Color(0.9137255, 0.45882353, 0.24705882, 1)
 hue_variation_min = -1.0
 hue_variation_max = 0.99999994
 
-[node name="GPUParticles2D" type="GPUParticles2D" unique_id=1429903893]
+[node name="Smoke" type="GPUParticles2D" unique_id=1429903893]
 modulate = Color(1, 1, 1, 0.5)
 amount = 20
 lifetime = 0.4

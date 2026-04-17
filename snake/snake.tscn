@@ -20,16 +20,16 @@ shader_parameter/spatial_scale = 4.0
 [node name="Snake" type="Node" unique_id=1592328004]
 script = ExtResource("1_j2kkt")
 
-[node name="Camera" parent="." unique_id=290250243 instance=ExtResource("2_nveb8")]
-unique_name_in_owner = true
-
-[node name="Timer" type="Timer" parent="." unique_id=740464833]
-unique_name_in_owner = true
-
 [node name="Hud" parent="." unique_id=1801158998 instance=ExtResource("2_vtpab")]
 unique_name_in_owner = true
 
+[node name="Camera" parent="." unique_id=290250243 instance=ExtResource("2_nveb8")]
+unique_name_in_owner = true
+
 [node name="RandomBackground" parent="." unique_id=1401162868 instance=ExtResource("3_ceet7")]
+
+[node name="Timer" type="Timer" parent="." unique_id=740464833]
+unique_name_in_owner = true
 
 [node name="Tiles" type="Node2D" parent="." unique_id=635228775]
 position = Vector2(0, 24)
@@ -49,21 +49,23 @@ tile_set = ExtResource("2_iujm3")
 unique_name_in_owner = true
 tile_set = ExtResource("2_iujm3")
 
-[node name="AudioEat" type="AudioStreamPlayer" parent="." unique_id=152689629]
+[node name="Audio" type="Node" parent="." unique_id=1012102895]
+
+[node name="AudioEat" type="AudioStreamPlayer" parent="Audio" unique_id=152689629]
 unique_name_in_owner = true
 stream = ExtResource("6_ceet7")
 
-[node name="AudioBoost" type="AudioStreamPlayer" parent="." unique_id=1896799568]
+[node name="AudioBoost" type="AudioStreamPlayer" parent="Audio" unique_id=1896799568]
 unique_name_in_owner = true
 stream = ExtResource("7_kjpqp")
 volume_db = -8.0
 
-[node name="AudioShrink" type="AudioStreamPlayer" parent="." unique_id=1320848761]
+[node name="AudioShrink" type="AudioStreamPlayer" parent="Audio" unique_id=1320848761]
 unique_name_in_owner = true
 stream = ExtResource("8_nveb8")
 volume_db = -8.0
 
-[node name="AudioDeath" type="AudioStreamPlayer" parent="." unique_id=1299962588]
+[node name="AudioDeath" type="AudioStreamPlayer" parent="Audio" unique_id=1299962588]
 unique_name_in_owner = true
 stream = ExtResource("9_qpv3m")
 volume_db = -8.0
