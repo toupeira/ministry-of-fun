@@ -4,7 +4,7 @@ const Smoke: PackedScene = preload('res://snake/smoke.tscn')
 
 @onready var camera: ShakingCamera = %Camera
 @onready var timer: Timer = %Timer
-@onready var hud: Hud = %Hud
+@onready var shell: Shell = %Shell
 
 @onready var walls: TileMapLayer = %Walls
 @onready var snake: TileMapLayer = %Snake
@@ -101,7 +101,6 @@ const SNAKE_TILES := {
 }
 
 func _ready() -> void:
-  hud.set_title('Snake')
   start_game()
 
 func _on_timer_timeout() -> void:
@@ -112,21 +111,21 @@ func _on_timer_timeout() -> void:
 func _input(event: InputEvent) -> void:
   if event.is_action_pressed('debug-god-mode'):
     god_mode = !god_mode
-    hud.log('God mode ' + ('Enabled' if god_mode else 'Disabled'))
+    shell.log('God mode ' + ('Enabled' if god_mode else 'Disabled'))
     return
   elif event.is_action_pressed('debug-1'):
     default_food = FOOD_TILES.red
-    hud.log('preferring Red food')
+    shell.log('preferring Red food')
     return
   elif event.is_action_pressed('debug-2'):
     default_food = FOOD_TILES.green
-    hud.log('preferring Green food')
+    shell.log('preferring Green food')
     return
   elif event.is_action_pressed('debug-3'):
     default_food = FOOD_TILES.yellow
-    hud.log('preferring Yellow food')
+    shell.log('preferring Yellow food')
     return
-  elif hud.is_game_over:
+  elif shell.is_game_over:
     return
 
   if event.is_action_pressed('up') and directions.current != Vector2i.DOWN:
@@ -148,7 +147,7 @@ func set_speed(speed: int) -> void:
   timer.wait_time = 1.0 / speed
 
 func start_game() -> void:
-  hud.reset()
+  shell.reset()
 
   directions.current = Vector2i.RIGHT
   set_speed(SPEED)
@@ -177,7 +176,7 @@ func end_game() -> void:
   if not god_mode:
     camera.apply_shake(1.0)
     audio_death.play()
-    hud.game_over()
+    shell.game_over()
     render_snake()
 
 func render_snake() -> void:
@@ -206,7 +205,7 @@ func render_snake() -> void:
         assert(corner_tile != Vector2i.ZERO, 'Invalid corner')
         snake.set_cell(last_segment, source, corner_tile + snake_variant)
       last_direction = direction
-    elif hud.is_game_over:
+    elif shell.is_game_over:
       source = 3
       tile = SNAKE_TILES.head_dead[directions.current]
     elif eating:
@@ -221,7 +220,7 @@ func render_snake() -> void:
     last_segment = segment
 
 func move_snake() -> void:
-  if hud.is_game_over:
+  if shell.is_game_over:
     return
 
   # Calculate new head position
@@ -309,16 +308,16 @@ func eat_food(pos: Vector2i) -> void:
   food.erase_cell(pos)
 
   if tile == FOOD_TILES.red:
-    hud.add_score(scores.red)
+    shell.add_score(scores.red)
     queue.add += 1
   elif tile == FOOD_TILES.green:
     audio_shrink.play()
-    hud.add_score(scores.green)
+    shell.add_score(scores.green)
     queue.remove += BOOSTER
   elif tile == FOOD_TILES.yellow:
     camera.apply_shake(0.8)
     audio_boost.play()
-    hud.add_score(scores.yellow)
+    shell.add_score(scores.yellow)
     queue.add += BOOSTER
     queue.boost += BOOSTER
 
