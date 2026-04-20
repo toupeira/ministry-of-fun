@@ -1,10 +1,10 @@
 [gd_resource type="TileSet" format=3 uid="uid://c5cnhdne8rbs4"]
 
-[ext_resource type="Texture2D" uid="uid://775cnfxyaa5w" path="res://assets/snake/Snake.png" id="1_mni1x"]
-[ext_resource type="Texture2D" uid="uid://sit65wb8nd62" path="res://assets/sprout-lands/ui/Sprite sheets/Sprout Lands UI.png" id="2_7ib8x"]
+[ext_resource type="Texture2D" uid="uid://775cnfxyaa5w" path="res://assets/snake/snake.png" id="1_7ib8x"]
+[ext_resource type="Texture2D" uid="uid://d3p76tr24plhn" path="res://assets/sprout-lands/ui/Sprite sheets/Sprout Lands UI Monochrome.png" id="3_3h0h7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vtpab"]
-texture = ExtResource("1_mni1x")
+texture = ExtResource("1_7ib8x")
 0:1/0 = 0
 0:1/0/terrain_set = 0
 1:1/0 = 0
@@ -319,7 +319,7 @@ texture = ExtResource("1_mni1x")
 3:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7ib8x"]
-texture = ExtResource("1_mni1x")
+texture = ExtResource("1_7ib8x")
 0:3/animation_columns = 8
 0:3/animation_speed = 32.0
 0:3/animation_frame_0/duration = 1.0
@@ -585,8 +585,8 @@ texture = ExtResource("1_mni1x")
 8:3/animation_frame_7/duration = 1.0
 8:3/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3h0h7"]
-texture = ExtResource("2_7ib8x")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0os7j"]
+texture = ExtResource("3_3h0h7")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -1401,4 +1401,4 @@ texture = ExtResource("2_7ib8x")
 terrain_set_0/mode = 0
 sources/1 = SubResource("TileSetAtlasSource_vtpab")
 sources/3 = SubResource("TileSetAtlasSource_7ib8x")
-sources/4 = SubResource("TileSetAtlasSource_3h0h7")
+sources/5 = SubResource("TileSetAtlasSource_0os7j")
