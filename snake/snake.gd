@@ -20,11 +20,11 @@ const SPEED := 10
 const SNAKE_SIZE := 3
 const BOOSTER := 10
 const FOOD_FREQUENCY := 30
-const FOOD_MAX := 10
+const FOOD_MAX := 5
 
-var ticks := 0
 var segments: Array[Vector2i] = []
 var snake_variant := Vector2i.ZERO
+var food_ticker := 0
 var eating := false
 var god_mode := false
 
@@ -105,7 +105,6 @@ func _ready() -> void:
   start_game()
 
 func _on_timer_timeout() -> void:
-  ticks += 1
   move_snake()
   add_food()
 
@@ -273,20 +272,30 @@ func move_snake() -> void:
   render_snake()
 
 func add_food() -> void:
+  food_ticker = maxi(0, food_ticker - 1)
   var count := food.get_used_cells().size()
-  if count > FOOD_MAX or not (count == 0 or ticks % FOOD_FREQUENCY == 0):
+  if count < FOOD_MAX and (count == 0 or food_ticker == 0):
+    food_ticker = FOOD_FREQUENCY
+  else:
     return
 
-  var rect := walls.get_used_rect()
-  while true:
-    var pos := Vector2i(randi() % rect.size.x, randi() % rect.size.y)
+  var tile := default_food
+  var length := segments.size()
 
-    if walls.get_cell_source_id(pos) < 0 and snake.get_cell_source_id(pos) < 0 and food.get_cell_source_id(pos) < 0:
-      var tile := default_food
-      if randi() % 5 == 0 and food.get_used_cells().size() > 0:
-        tile = FOOD_TILES.yellow
-      elif segments.size() > BOOSTER * 2 and randi() % 5 == 0 and food.get_used_cells_by_id(1, FOOD_TILES.green).size() == 0:
-        tile = FOOD_TILES.green
+  if length > BOOSTER / 2.0 and randi() % 5 == 0 and food.get_used_cells_by_id(1, FOOD_TILES.yellow).size() == 0:
+    tile = FOOD_TILES.yellow
+  elif length > BOOSTER * 2 and randi() % 5 == 0 and food.get_used_cells_by_id(1, FOOD_TILES.green).size() == 0:
+    tile = FOOD_TILES.green
+
+  var rect := walls.get_used_rect()
+
+  while true:
+    var pos := Vector2i(
+      randi() % (rect.size.x - 2) + 1,
+      randi() % (rect.size.y - 2) + 1
+    )
+
+    if (snake.get_cell_source_id(pos) < 0 and food.get_cell_source_id(pos) < 0):
       food.set_cell(pos, 1, tile)
       return
 
