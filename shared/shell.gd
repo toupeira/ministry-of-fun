@@ -18,8 +18,8 @@ var score := 0
 var is_game_over := false
 var debug_messages: Array[String] = []
 
-var click_drag := false
-var click_start := Vector2.ZERO
+var mouse_drag := false
+var mouse_start := Vector2.ZERO
 
 func _ready() -> void:
   Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -37,7 +37,7 @@ func _input(event: InputEvent) -> void:
   elif event.is_action_pressed('fullscreen'):
     toggle_fullscreen()
   elif event is InputEventMouseButton:
-    track_mouse(event)
+    track_mouse(event as InputEventMouseButton)
 
 func game_over() -> void:
   is_game_over = true
@@ -76,20 +76,19 @@ func toggle_fullscreen() -> void:
   else:
     window.mode = Window.MODE_WINDOWED
 
-func track_mouse(event: InputEvent) -> void:
-  var click := event as InputEventMouseButton
-  if click.pressed:
-    click_drag = true
-    if click_start == Vector2.ZERO:
-      click_start = click.position
-  elif click_drag:
-    click_drag = false
-    if click_start != Vector2.ZERO:
+func track_mouse(event: InputEventMouseButton) -> void:
+  if event.pressed:
+    mouse_drag = true
+    if mouse_start == Vector2.ZERO:
+      mouse_start = event.position
+  elif mouse_drag:
+    mouse_drag = false
+    if mouse_start != Vector2.ZERO:
       var input := InputEventAction.new()
       input.pressed = true
 
-      var swipe := click.position - click_start
-      click_start = Vector2.ZERO
+      var swipe := event.position - mouse_start
+      mouse_start = Vector2.ZERO
 
       if is_game_over:
         input.action = 'start'

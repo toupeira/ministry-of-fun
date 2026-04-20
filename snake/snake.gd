@@ -1,7 +1,5 @@
 extends Node
 
-const Smoke: PackedScene = preload('res://snake/smoke.tscn')
-
 @onready var camera: ShakingCamera = %Camera
 @onready var timer: Timer = %Timer
 @onready var shell: Shell = %Shell
@@ -14,6 +12,9 @@ const Smoke: PackedScene = preload('res://snake/smoke.tscn')
 @onready var audio_boost: AudioStreamPlayer = %AudioBoost
 @onready var audio_shrink: AudioStreamPlayer = %AudioShrink
 @onready var audio_death: AudioStreamPlayer = %AudioDeath
+
+@onready var smoke_boost: OneShotParticles = %SmokeBoost
+@onready var smoke_death: GPUParticles2D = %SmokeDeath
 
 const SPEED := 10
 const SNAKE_SIZE := 3
@@ -173,11 +174,15 @@ func start_game() -> void:
 
 func end_game() -> void:
   timer.stop()
-  if not god_mode:
-    camera.apply_shake(1.0)
-    audio_death.play()
-    shell.game_over()
-    render_snake()
+  if god_mode:
+    return
+
+  audio_death.play()
+  spawn_particles(smoke_death, Util.get_tile_position(food, segments[0]) + directions.current * Vector2i(food.tile_set.tile_size * 0.4))
+  camera.apply_shake(1.0)
+
+  shell.game_over()
+  render_snake()
 
 func render_snake() -> void:
   snake.clear()
@@ -259,16 +264,11 @@ func move_snake() -> void:
 
   # Boost speed
   if queue.boost > 0:
+    spawn_particles(smoke_boost, Util.get_tile_position(food, segments[0]))
     set_speed(SPEED * 3)
     queue.boost -= 1
     if queue.boost == 0:
       set_speed(SPEED)
-
-    spawn_particles(
-      Smoke,
-      Util.get_tile_position(food, segments[0]),
-      directions.current
-    )
 
   render_snake()
 
@@ -300,7 +300,7 @@ func eat_food(pos: Vector2i) -> void:
   sprite.position = Util.get_tile_position(food, pos)
   add_child(sprite)
   Util.grow_and_fade(sprite)
-  get_tree().create_timer(0.5).connect('timeout',
+  get_tree().create_timer(0.5).timeout.connect(
     func() -> void: eating = false
   )
 
@@ -315,15 +315,15 @@ func eat_food(pos: Vector2i) -> void:
     shell.add_score(scores.green)
     queue.remove += BOOSTER
   elif tile == FOOD_TILES.yellow:
-    camera.apply_shake(0.8)
     audio_boost.play()
+    camera.apply_shake(0.8)
     shell.add_score(scores.yellow)
     queue.add += BOOSTER
     queue.boost += BOOSTER
 
-func spawn_particles(particles_class: PackedScene, pos: Vector2i, direction: Vector2i) -> void:
-  var particles: GPUParticles2D = particles_class.instantiate()
+func spawn_particles(source: GPUParticles2D, pos: Vector2i) -> void:
+  var particles: GPUParticles2D = source.duplicate()
+  particles.visible = true
   particles.global_position = pos
-  if direction:
-    particles.rotation = Vector2(direction).angle()
+  particles.rotation = Vector2(directions.current).angle()
   add_child(particles)

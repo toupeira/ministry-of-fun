@@ -1,20 +1,6 @@
 [gd_scene format=3 uid="uid://ct6i803nfsbvg"]
 
 [ext_resource type="Script" uid="uid://ddir5m2jeocdp" path="res://main.gd" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://byegekvl2nuht" path="res://snake/smoke.tscn" id="2_0xm2m"]
 
 [node name="Main" type="Node" unique_id=699977936]
 script = ExtResource("1_ig7tw")
-
-[node name="Shaders" type="SubViewportContainer" parent="." unique_id=582300904]
-offset_left = -1024.0
-offset_top = -1024.0
-offset_right = -1022.0
-offset_bottom = -1022.0
-
-[node name="SubViewport" type="SubViewport" parent="Shaders" unique_id=1929827540]
-handle_input_locally = false
-size = Vector2i(2, 2)
-render_target_update_mode = 4
-
-[node name="Smoke" parent="Shaders/SubViewport" unique_id=1429903893 instance=ExtResource("2_0xm2m")]
