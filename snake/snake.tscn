@@ -61,16 +61,13 @@ stream = ExtResource("6_ceet7")
 [node name="AudioBoost" type="AudioStreamPlayer" parent="Audio" unique_id=1896799568]
 unique_name_in_owner = true
 stream = ExtResource("7_kjpqp")
-volume_db = -8.0
 
 [node name="AudioShrink" type="AudioStreamPlayer" parent="Audio" unique_id=1320848761]
 unique_name_in_owner = true
 stream = ExtResource("8_nveb8")
-volume_db = -8.0
 
 [node name="AudioDeath" type="AudioStreamPlayer" parent="Audio" unique_id=1299962588]
 unique_name_in_owner = true
 stream = ExtResource("9_qpv3m")
-volume_db = -8.0
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
