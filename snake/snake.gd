@@ -108,7 +108,7 @@ func _on_timer_timeout() -> void:
   move_snake()
   add_food()
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
   if event.is_action_pressed('debug-god-mode'):
     god_mode = !god_mode
     shell.log('God mode ' + ('Enabled' if god_mode else 'Disabled'))
