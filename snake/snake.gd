@@ -303,9 +303,8 @@ func eat_food(pos: Vector2i) -> void:
   audio_eat.play()
 
   eating = true
-  var sprite := Sprite2D.new()
+  var sprite := Util.get_tile_sprite(food, pos)
   sprite.modulate.a = 0.75
-  sprite.texture = Util.get_tile_image(food, pos)
   sprite.position = Util.get_tile_position(food, pos)
   add_child(sprite)
   Util.grow_and_fade(sprite)

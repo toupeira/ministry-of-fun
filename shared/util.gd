@@ -11,12 +11,14 @@ static func get_tile_position(tilemap: TileMapLayer, pos :Vector2i) -> Vector2i:
   var local := tilemap.map_to_local(pos)
   return tilemap.to_global(local)
 
-static func get_tile_image(tilemap: TileMapLayer, pos: Vector2i) -> ImageTexture:
+static func get_tile_sprite(tilemap: TileMapLayer, pos: Vector2i) -> Sprite2D:
   var source_id := tilemap.get_cell_source_id(pos)
   var source: TileSetAtlasSource = tilemap.tile_set.get_source(source_id)
-  var atlas_pos := tilemap.get_cell_atlas_coords(pos)
-  var rect := source.get_tile_texture_region(atlas_pos)
-  var image: Image = source.texture.get_image()
-  var tile_image := image.get_region(rect)
+  var atlas_coords := tilemap.get_cell_atlas_coords(pos)
 
-  return ImageTexture.create_from_image(tile_image)
+  var sprite := Sprite2D.new()
+  sprite.texture = source.texture
+  sprite.region_enabled = true
+  sprite.region_rect = source.get_tile_texture_region(atlas_coords)
+
+  return sprite
