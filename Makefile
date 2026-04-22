@@ -4,6 +4,11 @@ clean:
 import:
 	@godot --headless --import
 
+linux:
+	@rm -rf build/linux
+	@mkdir -p build/linux
+	@godot --headless --export-release Linux
+
 web: web-export web-serve
 
 web-export:
