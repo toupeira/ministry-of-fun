@@ -118,7 +118,6 @@ visible = false
 modulate = Color(1, 1, 1, 0.5)
 position = Vector2(100, -50)
 amount = 40
-lifetime = 1.0
 explosiveness = 0.8
 process_material = SubResource("ParticleProcessMaterial_nveb8")
 script = ExtResource("11_nveb8")
