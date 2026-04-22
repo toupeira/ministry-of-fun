@@ -10,7 +10,7 @@ const ROTATION := 4             # maximum rotation in degrees
 var shake := 0.0 # shake amount
 var decay := 0.0 # decay time scaled by shake amount
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
   if shake > 0:
     shake = move_toward(shake, 0.0, delta / decay)
     var power := pow(shake, 2)
