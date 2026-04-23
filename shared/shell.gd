@@ -13,6 +13,7 @@ extends CanvasLayer
 @onready var button_continue: Button = %ButtonContinue
 @onready var button_restart: Button = %ButtonRestart
 @onready var button_quit: Button = %ButtonQuit
+@onready var high_scores_label: RichTextLabel = %HighScoresLabel
 
 var score := 0
 var is_game_over := false
@@ -44,6 +45,18 @@ func game_over() -> void:
   is_game_over = true
   toggle_menu()
 
+  var scores := HighScores.save(game_id, score)
+  if scores.size() > 0:
+    var text := "[font_size=20]High Scores[/font_size]\n"
+    var rank := 1
+    for entry: Dictionary in scores:
+      var color := 'yellow' if entry.score == score else ''
+      text += "[font_size=12][color=#aaa]%2d.[/color][/font_size]  [color=%s]%d[/color]\n" % [rank, color, entry.score]
+      rank += 1
+
+    high_scores_label.text = text
+    high_scores_label.visible = true
+
 func reset() -> void:
   is_game_over = false
   set_score(0)
@@ -66,6 +79,7 @@ func toggle_menu() -> void:
   if menu.visible:
     menu_label.text = 'Game Over' if is_game_over else 'Pause'
     button_continue.visible = !is_game_over
+    high_scores_label.visible = false
     menu.find_next_valid_focus().grab_focus()
   else:
     Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)

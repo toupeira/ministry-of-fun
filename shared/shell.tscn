@@ -106,6 +106,23 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Quit"
 
+[node name="HighScoresLabel" type="RichTextLabel" parent="Menu" unique_id=1650178463]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -10.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+bbcode_enabled = true
+text = "[font_size=20]High Scores[/font_size]"
+fit_content = true
+
 [connection signal="pressed" from="Menu/VBoxContainer/ButtonContinue" to="." method="toggle_menu"]
 [connection signal="pressed" from="Menu/VBoxContainer/ButtonRestart" to="." method="restart"]
 [connection signal="pressed" from="Menu/VBoxContainer/ButtonQuit" to="." method="quit"]
