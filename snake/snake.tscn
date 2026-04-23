@@ -51,7 +51,7 @@ script = ExtResource("1_j2kkt")
 [node name="Shell" parent="." unique_id=1801158998 instance=ExtResource("2_vtpab")]
 unique_name_in_owner = true
 game_id = "snake"
-game_title = "Snake"
+game_name = "Snake"
 
 [node name="Camera" parent="." unique_id=290250243 instance=ExtResource("2_nveb8")]
 unique_name_in_owner = true

@@ -2,7 +2,7 @@ class_name Shell
 extends CanvasLayer
 
 @export var game_id: String
-@export var game_title: String
+@export var game_name: String
 
 @onready var game_label: Label = %GameLabel
 @onready var score_label: Label = %ScoreLabel
@@ -24,7 +24,7 @@ var mouse_start := Vector2.ZERO
 func _ready() -> void:
   Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
   button_quit.visible = OS.get_name() != 'Web'
-  game_label.text = game_title
+  game_label.text = game_name
 
 func _input(event: InputEvent) -> void:
   if menu.visible and event is InputEventMouse:
