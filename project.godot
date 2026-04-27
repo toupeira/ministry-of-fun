@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Lot 49"
+config/name="Ministry of Fun"
 run/main_scene="uid://ct6i803nfsbvg"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 run/max_fps=60

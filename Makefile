@@ -17,9 +17,9 @@ web-export:
 	@godot --headless --export-release Web
 
 web-zip: web-export
-	@cd build/web && zip -r lot49.zip .
+	@cd build/web && zip -r ministry-of-fun.zip .
 	@echo
-	@du -h build/web/lot49.zip
+	@du -h build/web/ministry-of-fun.zip
 	@echo
 
 web-serve: web-export
