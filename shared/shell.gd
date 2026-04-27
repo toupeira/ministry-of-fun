@@ -2,7 +2,6 @@ class_name Shell
 extends CanvasLayer
 
 @export var game_id: String
-@export var game_name: String
 
 @onready var game_label: Label = %GameLabel
 @onready var score_label: Label = %ScoreLabel
@@ -23,9 +22,11 @@ var mouse_drag := false
 var mouse_start := Vector2.ZERO
 
 func _ready() -> void:
+  GameInfo.current = game_id
+  game_label.text = GameInfo.games[game_id].name
+
   Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
   button_quit.visible = OS.get_name() != 'Web'
-  game_label.text = game_name
 
 func _input(event: InputEvent) -> void:
   if menu.visible and event is InputEventMouse:
@@ -45,7 +46,7 @@ func game_over() -> void:
   is_game_over = true
   toggle_menu()
 
-  var scores := HighScores.save(game_id, score)
+  var scores := HighScores.save(score)
   if scores.size() > 0:
     var text := "[font_size=20]High Scores[/font_size]\n"
     var rank := 1

@@ -21,7 +21,10 @@ static func restore() -> Dictionary[String, Array]:
   var dict: Dictionary[String, Array] = data
   return dict
 
-static func save(game_id: String, score: int) -> Array:
+static func save(score: int) -> Array:
+  var game_id := GameInfo.current
+  assert(game_id != null)
+
   if not game_id in games:
     games[game_id] = []
 
