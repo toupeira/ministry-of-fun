@@ -6,7 +6,18 @@
 process_mode = 3
 script = ExtResource("1_gg5sf")
 
-[node name="Background" type="ColorRect" parent="." unique_id=1054144432]
+[node name="Background" type="CanvasLayer" parent="." unique_id=781902268]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="Background" unique_id=2081836617]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TopPanel" type="ColorRect" parent="." unique_id=1054144432]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 24.0
