@@ -1,0 +1,54 @@
+version = 1
+
+[[annotations]]
+path = [
+  "*",
+  "shared/**",
+  "snake/**",
+]
+SPDX-FileCopyrightText = "2026 Markus Koller"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "assets/*",
+  "assets/sounds/**",
+]
+SPDX-FileCopyrightText = "2026 Markus Koller"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["assets/thirdparty/backgrounds/city/**"]
+SPDX-FileCopyrightText = "CraftPix"
+SPDX-License-Identifier = "LicenseRef-CraftPix"
+X-URL = "https://free-game-assets.itch.io/free-city-backgrounds-pixel-art"
+
+[[annotations]]
+path = ["assets/thirdparty/backgrounds/nature/**"]
+SPDX-FileCopyrightText = "CraftPix"
+SPDX-License-Identifier = "LicenseRef-CraftPix"
+X-URL = "https://free-game-assets.itch.io/nature-landscapes-free-pixel-art"
+
+[[annotations]]
+path = ["assets/thirdparty/backgrounds/summer/**"]
+SPDX-FileCopyrightText = "CraftPix"
+SPDX-License-Identifier = "LicenseRef-CraftPix"
+X-URL = "https://free-game-assets.itch.io/free-summer-pixel-art-backgrounds"
+
+[[annotations]]
+path = ["assets/thirdparty/pixel-operator/**"]
+SPDX-FileCopyrightText = "Jayvee Enaguas"
+SPDX-License-Identifier = "CC0-1.0"
+X-URL = "https://www.dafont.com/pixel-operator.font"
+
+[[annotations]]
+path = ["assets/thirdparty/snake/**"]
+SPDX-FileCopyrightText = "Lazy Fox"
+SPDX-License-Identifier = "CC-BY-4.0"
+X-URL = "https://lazy-fox.itch.io/snake-asset"
+
+[[annotations]]
+path = ["assets/thirdparty/sprout-lands-ui/**"]
+SPDX-FileCopyrightText = "Cup Nooble"
+SPDX-License-Identifier = "LicenseRef-CupNooble"
+X-URL = "https://cupnooble.itch.io/sprout-lands-ui-pack"

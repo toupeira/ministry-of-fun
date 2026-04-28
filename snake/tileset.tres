@@ -1,7 +1,7 @@
 [gd_resource type="TileSet" format=3 uid="uid://c5cnhdne8rbs4"]
 
-[ext_resource type="Texture2D" uid="uid://775cnfxyaa5w" path="res://assets/snake/snake.png" id="1_7ib8x"]
-[ext_resource type="Texture2D" uid="uid://d3p76tr24plhn" path="res://assets/sprout-lands/ui/Sprite sheets/Sprout Lands UI Monochrome.png" id="3_3h0h7"]
+[ext_resource type="Texture2D" uid="uid://775cnfxyaa5w" path="res://assets/thirdparty/snake/snake.png" id="1_7ib8x"]
+[ext_resource type="Texture2D" uid="uid://d3p76tr24plhn" path="res://assets/thirdparty/sprout-lands-ui/sprout-lands-ui-monochrome.png" id="2_7ib8x"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vtpab"]
 texture = ExtResource("1_7ib8x")
@@ -586,7 +586,7 @@ texture = ExtResource("1_7ib8x")
 8:3/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0os7j"]
-texture = ExtResource("3_3h0h7")
+texture = ExtResource("2_7ib8x")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0

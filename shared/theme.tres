@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://clu0l0h4i7jck"]
 
-[ext_resource type="FontFile" uid="uid://ocvkg3o3lf8s" path="res://assets/fonts/PixelOperatorSC.ttf" id="1_eno14"]
+[ext_resource type="FontFile" uid="uid://ocvkg3o3lf8s" path="res://assets/thirdparty/pixel-operator/PixelOperatorSC.ttf" id="1_eno14"]
 
 [resource]
 default_font = ExtResource("1_eno14")
