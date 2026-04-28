@@ -1,6 +1,31 @@
 [gd_scene format=3 uid="uid://ct6i803nfsbvg"]
 
 [ext_resource type="Script" uid="uid://ddir5m2jeocdp" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://w38ekea1d6hv" path="res://shared/shell.tscn" id="2_0xm2m"]
 
 [node name="Main" type="Node" unique_id=699977936]
 script = ExtResource("1_ig7tw")
+
+[node name="Shell" parent="." unique_id=1801158998 instance=ExtResource("2_0xm2m")]
+game_id = "main"
+
+[node name="GameList" type="ItemList" parent="." unique_id=1349392415]
+unique_name_in_owner = true
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_top = 24.0
+offset_right = 320.0
+grow_vertical = 2
+allow_search = false
+scroll_hint_mode = 1
+
+[node name="GameInfo" type="RichTextLabel" parent="." unique_id=1861551184]
+unique_name_in_owner = true
+offset_left = 320.0
+offset_top = 24.0
+offset_right = 640.0
+offset_bottom = 360.0
+bbcode_enabled = true
+
+[connection signal="item_activated" from="GameList" to="." method="_on_game_list_item_activated"]
+[connection signal="item_selected" from="GameList" to="." method="_on_game_list_item_selected"]
