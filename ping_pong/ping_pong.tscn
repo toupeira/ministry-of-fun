@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://bn21sntdbkde0"]
+
+[ext_resource type="Script" uid="uid://dnlwaa7ov7kfg" path="res://ping_pong/ping_pong.gd" id="1_utnmd"]
+[ext_resource type="PackedScene" uid="uid://w38ekea1d6hv" path="res://shared/shell.tscn" id="2_xmcwo"]
+[ext_resource type="PackedScene" uid="uid://cqppi1mshtp4" path="res://shared/random_background.tscn" id="3_i6ukd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1hw3o"]
+size = Vector2(640, 128)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1hw3o"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1hw3o"]
+radius = 8.0
+
+[sub_resource type="Gradient" id="Gradient_g8uh0"]
+offsets = PackedFloat32Array(0.8, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fif4v"]
+gradient = SubResource("Gradient_g8uh0")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fif4v"]
+size = Vector2(16, 64)
+
+[sub_resource type="Gradient" id="Gradient_fif4v"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0.5838715, 0.34832385, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_teprw"]
+gradient = SubResource("Gradient_fif4v")
+width = 16
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_teprw"]
+size = Vector2(128, 384)
+
+[node name="PingPong" type="Node" unique_id=1399545431]
+script = ExtResource("1_utnmd")
+
+[node name="Shell" parent="." unique_id=1801158998 instance=ExtResource("2_xmcwo")]
+unique_name_in_owner = true
+game_id = "ping_pong"
+
+[node name="RandomBackground" parent="." unique_id=1401162868 instance=ExtResource("3_i6ukd")]
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=563592812]
+
+[node name="CollisionShapeTop" type="CollisionShape2D" parent="Walls" unique_id=1541947895]
+position = Vector2(320, -40)
+shape = SubResource("RectangleShape2D_1hw3o")
+
+[node name="CollisionShapeBottom" type="CollisionShape2D" parent="Walls" unique_id=1684223407]
+position = Vector2(320, 424)
+shape = SubResource("RectangleShape2D_1hw3o")
+
+[node name="Ball" type="RigidBody2D" parent="." unique_id=1373527637]
+unique_name_in_owner = true
+position = Vector2(320, 192)
+physics_material_override = SubResource("PhysicsMaterial_1hw3o")
+contact_monitor = true
+max_contacts_reported = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball" unique_id=500144905]
+shape = SubResource("CircleShape2D_1hw3o")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ball" unique_id=1380886965]
+texture = SubResource("GradientTexture2D_fif4v")
+
+[node name="PaddleLeft" type="StaticBody2D" parent="." unique_id=1636740632]
+unique_name_in_owner = true
+position = Vector2(32, 192)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PaddleLeft" unique_id=425272641]
+shape = SubResource("RectangleShape2D_fif4v")
+
+[node name="Sprite2D" type="Sprite2D" parent="PaddleLeft" unique_id=919191776]
+texture = SubResource("GradientTexture2D_teprw")
+
+[node name="GoalLeft" type="StaticBody2D" parent="." unique_id=2127860480]
+unique_name_in_owner = true
+position = Vector2(-88, 192)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalLeft" unique_id=744419751]
+shape = SubResource("RectangleShape2D_teprw")
+
+[node name="PaddleRight" type="StaticBody2D" parent="." unique_id=1285227242]
+unique_name_in_owner = true
+position = Vector2(608, 192)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PaddleRight" unique_id=2143008727]
+shape = SubResource("RectangleShape2D_fif4v")
+
+[node name="Sprite2D" type="Sprite2D" parent="PaddleRight" unique_id=765370606]
+texture = SubResource("GradientTexture2D_teprw")
+
+[node name="GoalRight" type="StaticBody2D" parent="." unique_id=1341965542]
+unique_name_in_owner = true
+position = Vector2(728, 192)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalRight" unique_id=1576874695]
+shape = SubResource("RectangleShape2D_teprw")
+
+[connection signal="body_entered" from="Ball" to="." method="_on_ball_collision"]

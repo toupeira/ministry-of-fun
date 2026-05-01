@@ -25,7 +25,7 @@ func _ready() -> void:
   GameInfo.current = game_id
   game_label.text = GameInfo.games[game_id].name
 
-  Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+  Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
   button_quit.visible = OS.get_name() != 'Web'
 
 func _input(event: InputEvent) -> void:
@@ -83,7 +83,7 @@ func toggle_menu() -> void:
     high_scores_label.visible = false
     menu.find_next_valid_focus().grab_focus()
   else:
-    Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+    Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
 
 func toggle_fullscreen() -> void:
   var window := get_window()

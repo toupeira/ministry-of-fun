@@ -1,8 +1,8 @@
 extends Node
 
+@onready var shell: Shell = %Shell
 @onready var camera: ShakingCamera = %Camera
 @onready var timer: Timer = %Timer
-@onready var shell: Shell = %Shell
 
 @onready var walls: TileMapLayer = %Walls
 @onready var snake: TileMapLayer = %Snake

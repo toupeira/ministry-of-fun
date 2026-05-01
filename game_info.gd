@@ -7,6 +7,12 @@ static var games: Dictionary[String, Dictionary] = {
     name = "Ministry of Fun",
     hidden = true,
   },
+
+  ping_pong = {
+    name = "Ping-Pong",
+    genre = "Action",
+  },
+
   snake = {
     name = "Snake",
     genre = "Action",
