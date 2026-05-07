@@ -24,8 +24,8 @@ Right now this only contains a Snake clone, stay tuned for more!
 
 ## License
 
-This project follows the [REUSE specification](https://reuse.software/), see [REUSE.toml](REUSE.toml) for details. In summary:
+See [REUSE.toml](REUSE.toml) for full licensing and copyright information. In summary:
 
-- Source code is distributed under the [MIT](LICENSES/MIT.txt) license.
-- Original assets are distributed under the [CC-BY-4.0](LICENSES/CC-BY-4.0.txt) license.
-- Third-party assets are distributed under their own licenses.
+- Source code is licensed under [MIT](LICENSES/MIT.txt).
+- Original assets are licensed under [CC-BY-4.0](LICENSES/CC-BY-4.0.txt).
+- Third-party assets use their own licenses.

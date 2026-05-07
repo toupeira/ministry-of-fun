@@ -4,6 +4,10 @@ clean:
 import:
 	@godot --headless --import
 
+reuse:
+	@reuse download --all
+	@reuse lint
+
 linux:
 	@rm -rf build/linux
 	@mkdir -p build/linux

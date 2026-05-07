@@ -1,8 +1,12 @@
+# This project follows the REUSE specification,
+# see https://reuse.software/ for details.
+
 version = 1
 
 [[annotations]]
 path = [
   "*",
+  "ping_pong/**",
   "shared/**",
   "snake/**",
 ]
