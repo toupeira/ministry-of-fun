@@ -1,3 +1,6 @@
+game = ministry-of-fun
+user = toupeira
+
 clean:
 	@rm -rv build/*
 
@@ -9,23 +12,19 @@ reuse:
 	@reuse lint
 
 linux:
-	@rm -rf build/linux
 	@mkdir -p build/linux
 	@godot --headless --export-release Linux
 
-web: web-export web-serve
-
-web-export:
-	@rm -rf build/web
+web:
 	@mkdir -p build/web
 	@godot --headless --export-release Web
 
-web-zip: web-export
-	@cd build/web && zip -r ministry-of-fun.zip .
-	@echo
-	@du -h build/web/ministry-of-fun.zip
-	@echo
-
-web-serve: web-export
+browser: web
 	@xdg-open "http://localhost:8000/" &>/dev/null
 	@cd build/web && python3 -m http.server
+
+publish: web
+	@butler push build/web "${user}/${game}:web"
+
+status:
+	@butler status "${user}/${game}:web"
