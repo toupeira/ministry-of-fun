@@ -20,8 +20,7 @@ web:
 	@godot --headless --export-release Web
 
 browser: web
-	@xdg-open "http://localhost:8000/" &>/dev/null
-	@cd build/web && python3 -m http.server
+	@simple-http-server -i --open --nocache --coop --coep build/web
 
 publish: web
 	@butler push build/web "${user}/${game}:web"
